@@ -4,22 +4,22 @@ Tóm tắt khái niệm: https://youtu.be/SYsBp7kOWdk?si=Gbu1faGGwrq2Y-Z-
 Về module CRM của Odoo: https://youtu.be/E2zkTZuW2Vc?si=zXzqEv36BMp87xFR
 
 ## Nguồn học tập:
-Core: https://youtube.com/playlist?list=PLqRRLx0cl0hoZM788LH5M8q7KhiXPyuVU&si=-NVKnab_4Dy-Hsss
-Odoo 17: https://youtube.com/playlist?list=PLqRRLx0cl0hq0T4SV-BHhCicWOpzyWcHd&si=h6a9DMXcxaILI9Yo
-Frontend - Odoo view: https://youtube.com/playlist?list=PLAR8TpPnVeTTwiF0XXA92_h1__kmvAmQp&si=QahTwF4eak9WtU5U
+* Core: https://youtube.com/playlist?list=PLqRRLx0cl0hoZM788LH5M8q7KhiXPyuVU&si=-NVKnab_4Dy-Hsss
+* Odoo 17: https://youtube.com/playlist?list=PLqRRLx0cl0hq0T4SV-BHhCicWOpzyWcHd&si=h6a9DMXcxaILI9Yo
+* Frontend - Odoo view: https://youtube.com/playlist?list=PLAR8TpPnVeTTwiF0XXA92_h1__kmvAmQp&si=QahTwF4eak9WtU5U
 
 ## Tài liệu:
 https://www.odoo.com/documentation/17.0/
 
 ## Tải các tài nguyên:
-Python 3.12.10: https://www.python.org/downloads/release/python-31210/
-PostgreSql 15.13: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-Odoo 17.0: https://github.com/odoo/odoo/tree/17.0 (không được clone, phải chọn bản 17.0 trên nhánh và tải xuống file zip)
+* Python 3.12.10: https://www.python.org/downloads/release/python-31210/
+* PostgreSql 15.13: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+* Odoo 17.0: https://github.com/odoo/odoo/tree/17.0 (không được clone, phải chọn bản 17.0 trên nhánh và tải xuống file zip)
 
 ## Config:
 **Video hướng dẫn config**
-Recommend: https://youtu.be/jJXZcqiJG4Y?si=F9SXGUHYxyGKJVIc
-Cách config khác (yêu cầu phải tải các package về truớc): https://youtu.be/p7SJW36lqVE?si=3i79TTFpMwwu2DxP
+* Recommend: https://youtu.be/jJXZcqiJG4Y?si=F9SXGUHYxyGKJVIc
+* Cách config khác (yêu cầu phải tải các package về truớc): https://youtu.be/p7SJW36lqVE?si=3i79TTFpMwwu2DxP
 
 
 **Tạo file odoo.conf:**
