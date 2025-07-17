@@ -1,7 +1,7 @@
 ## Tìm hiểu về CRM:
 
-Tóm tắt khái niệm: https://youtu.be/SYsBp7kOWdk?si=Gbu1faGGwrq2Y-Z-
-Về module CRM của Odoo: https://youtu.be/E2zkTZuW2Vc?si=zXzqEv36BMp87xFR
+* Tóm tắt khái niệm: https://youtu.be/SYsBp7kOWdk?si=Gbu1faGGwrq2Y-Z-
+* Về module CRM của Odoo: https://youtu.be/E2zkTZuW2Vc?si=zXzqEv36BMp87xFR
 
 ## Nguồn học tập:
 * Core: https://youtube.com/playlist?list=PLqRRLx0cl0hoZM788LH5M8q7KhiXPyuVU&si=-NVKnab_4Dy-Hsss
