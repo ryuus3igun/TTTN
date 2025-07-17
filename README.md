@@ -12,9 +12,9 @@ Frontend - Odoo view: https://youtube.com/playlist?list=PLAR8TpPnVeTTwiF0XXA92_h
 https://www.odoo.com/documentation/17.0/
 
 ## Tải các tài nguyên:
-https://www.python.org/downloads/release/python-31210/ (Tải bản 3.12.10)
-https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (Tải bản 15.13 và cài đặt biến môi trường)
-https://github.com/odoo/odoo/tree/17.0 (không được clone, phải chọn bản 17.0 trên nhánh và tải xuống file zip)
+Python 3.12.10: https://www.python.org/downloads/release/python-31210/
+PostgreSql 15.13: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+Odoo 17.0: https://github.com/odoo/odoo/tree/17.0 (không được clone, phải chọn bản 17.0 trên nhánh và tải xuống file zip)
 
 ## Config:
 **Video hướng dẫn config**
