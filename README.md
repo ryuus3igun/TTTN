@@ -1,37 +1,52 @@
-# Odoo
+## Tìm hiểu về CRM:
 
-[![Build Status](https://runbot.odoo.com/runbot/badge/flat/1/master.svg)](https://runbot.odoo.com/runbot)
-[![Documentation](https://img.shields.io/badge/master-docs-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/documentation/17.0)
-[![Help](https://img.shields.io/badge/master-help-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/forum/help-1)
-[![Nightly Builds](https://img.shields.io/badge/master-nightly-875A7B.svg?style=flat&colorA=8F8F8F)](https://nightly.odoo.com/)
+Tóm tắt khái niệm: https://youtu.be/SYsBp7kOWdk?si=Gbu1faGGwrq2Y-Z-
+Về module CRM của Odoo: https://youtu.be/E2zkTZuW2Vc?si=zXzqEv36BMp87xFR
 
-Odoo is a suite of web based open source business apps.
+## Nguồn học tập:
+Core: https://youtube.com/playlist?list=PLqRRLx0cl0hoZM788LH5M8q7KhiXPyuVU&si=-NVKnab_4Dy-Hsss
+Odoo 17: https://youtube.com/playlist?list=PLqRRLx0cl0hq0T4SV-BHhCicWOpzyWcHd&si=h6a9DMXcxaILI9Yo
+Frontend - Odoo view: https://youtube.com/playlist?list=PLAR8TpPnVeTTwiF0XXA92_h1__kmvAmQp&si=QahTwF4eak9WtU5U
 
-The main Odoo Apps include an [Open Source CRM](https://www.odoo.com/page/crm),
-[Website Builder](https://www.odoo.com/app/website),
-[eCommerce](https://www.odoo.com/app/ecommerce),
-[Warehouse Management](https://www.odoo.com/app/inventory),
-[Project Management](https://www.odoo.com/app/project),
-[Billing &amp; Accounting](https://www.odoo.com/app/accounting),
-[Point of Sale](https://www.odoo.com/app/point-of-sale-shop),
-[Human Resources](https://www.odoo.com/app/employees),
-[Marketing](https://www.odoo.com/app/social-marketing),
-[Manufacturing](https://www.odoo.com/app/manufacturing),
-[...](https://www.odoo.com/)
+## Tài liệu:
+https://www.odoo.com/documentation/17.0/
 
-Odoo Apps can be used as stand-alone applications, but they also integrate seamlessly so you get
-a full-featured [Open Source ERP](https://www.odoo.com) when you install several Apps.
+## Tải các tài nguyên:
+https://www.python.org/downloads/release/python-31210/ (Tải bản 3.12.10)
+https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (Tải bản 15.13 và cài đặt biến môi trường)
+https://github.com/odoo/odoo/tree/17.0 (không được clone, phải chọn bản 17.0 trên nhánh và tải xuống file zip)
 
-## Getting started with Odoo
+## Config:
+**Video hướng dẫn config**
+Recommend: https://youtu.be/jJXZcqiJG4Y?si=F9SXGUHYxyGKJVIc
+Cách config khác (yêu cầu phải tải các package về truớc): https://youtu.be/p7SJW36lqVE?si=3i79TTFpMwwu2DxP
 
-For a standard installation please follow the [Setup instructions](https://www.odoo.com/documentation/17.0/administration/install/install.html)
-from the documentation.
 
-To learn the software, we recommend the [Odoo eLearning](https://www.odoo.com/slides),
-or [Scale-up, the business game](https://www.odoo.com/page/scale-up-business-game).
-Developers can start with [the developer tutorials](https://www.odoo.com/documentation/17.0/developer/howtos.html).
+**Tạo file odoo.conf:**
+```
+//Tên host và cổng port cho server trên PostgreSQL
+[options]
+db_host = localhost
+db_port = 5432
 
-## Security
+//Tên group_roles cùng với pass đã tạo trên PostGre (lưu ý phải tạo trên PostGre trước và cấp toàn quyền
+db_user = odoo
+db_password = 12345
 
-If you believe you have found a security issue, check our [Responsible Disclosure page](https://www.odoo.com/security-report)
-for details and get in touch with us via email.
+//Tên db
+db_name = odoo_learning
+
+//Truyền path của thư mục addons trong project (mặc định sẽ là addons, nếu báo lỗi thì truyền đúng đường dẫn)
+addons_path = addons
+```
+
+**Terminal config (sử dụng terminal):**
+```
+python -m venv virtual //chạy đầu tiên
+virtual\Scripts\activate (deactivate hoặc ghi "exit" để dừng toàn bộ chương trình)
+python odoo-bin -c odoo.conf -d <tên_db> -i base //Lưu ý: database phải là một database rỗng tức chưa có Schema
+pip install setuptools wheel
+pip install -r requirements.txt
+```
+**Lệnh chạy chương trình với file odoo.conf**
+`python odoo-bin -c odoo.conf`
