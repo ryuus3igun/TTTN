@@ -1,63 +1,375 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-        <!-- Partner kanban view inherit -->
-        <record id="crm_lead_partner_kanban_view" model="ir.ui.view">
-            <field name="name">res.partner.kanban.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
-            <field name="priority" eval="10"/>
-            <field name="arch" type="xml">
-                <field name="mobile" position="after">
-                    <field name="opportunity_count" groups="sales_team.group_sale_salesman"/>
-                </field>
-                <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
-                    <a t-if="record.opportunity_count.value>0" href="#"
-                       groups="sales_team.group_sale_salesman"
-                       data-type="object" data-name="action_view_opportunity"
-                       class="oe_kanban_action oe_kanban_action_a me-1">
-                        <span class="badge rounded-pill">
-                            <i class="fa fa-fw fa-star" aria-label="Opportunities"
-                               role="img" title="Opportunities"/>
-                            <t t-out="record.opportunity_count.value"/>
-                        </span>
-                    </a>
-                </xpath>
+    <!-- Inherit existing CRM partner kanban view -->
+    <record id="crm_lead_partner_kanban_view" model="ir.ui.view">
+        <field name="name">res.partner.kanban.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <field name="mobile" position="after">
+                <field name="opportunity_count" groups="sales_team.group_sale_salesman"/>
+                <field name="customer_type"/>
+                <field name="interaction_count"/>
+                <field name="purchase_count"/>
             </field>
-        </record>
 
-        <!-- Add contextual button on partner form view -->
-        <record id="view_partners_form_crm1" model="ir.ui.view">
-            <field name="name">view.res.partner.form.crm.inherited1</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field eval="1" name="priority"/>
-            <field name="arch" type="xml">
-                <data>
-                    <div name="button_box" position="inside">
-                        <button class="oe_stat_button o_res_partner_tip_opp" type="object"
-                            name="action_view_opportunity"
-                            icon="fa-star"
-                            groups="sales_team.group_sale_salesman"
-                            context="{'default_partner_id': id, 'default_type':'opportunity'}">
-                            <field string="Opportunities" name="opportunity_count" widget="statinfo"/>
-                        </button>
+            <xpath expr="//div[hasclass('oe_kanban_details')]" position="inside">
+                <div class="row">
+                    <div class="col-6">
+                        <span class="badge text-bg-info" t-if="record.customer_type.raw_value == 'b2c'">B2C</span>
+                        <span class="badge text-bg-success" t-if="record.customer_type.raw_value == 'b2b'">B2B</span>
+                        <span class="badge text-bg-warning" t-if="record.customer_type.raw_value == 'partner'">Partner</span>
+                        <span class="badge text-bg-secondary" t-if="record.id.raw_value">🔒 Locked</span>
                     </div>
-                </data>
-            </field>
-        </record>
+                </div>
+            </xpath>
 
-        <record id="res_partner_view_form_simple_form" model="ir.ui.view">
-            <field name="name">res.partner.view.form.simple.form.crm</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_simple_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="//form">
-                        <field name="team_id" invisible="1"/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.opportunity_count.value>0" href="#"
+                   groups="sales_team.group_sale_salesman"
+                   data-type="object" data-name="action_view_opportunity"
+                   class="oe_kanban_action oe_kanban_action_a me-1">
+                    <span class="badge rounded-pill">
+                        <i class="fa fa-fw fa-star" aria-label="Opportunities"
+                           role="img" title="Opportunities"/>
+                        <t t-out="record.opportunity_count.value"/>
+                    </span>
+                </a>
+
+                <a t-if="record.interaction_count.value>0" href="#"
+                   data-type="object" data-name="action_view_interactions"
+                   class="oe_kanban_action oe_kanban_action_a me-1">
+                    <span class="badge rounded-pill text-bg-secondary">
+                        <i class="fa fa-fw fa-comments" title="Interactions"/>
+                        <t t-out="record.interaction_count.value"/>
+                    </span>
+                </a>
+
+                <a t-if="record.purchase_count.value>0" href="#"
+                   data-type="object" data-name="action_view_purchases"
+                   class="oe_kanban_action oe_kanban_action_a me-1">
+                    <span class="badge rounded-pill text-bg-primary">
+                        <i class="fa fa-fw fa-shopping-cart" title="Purchases"/>
+                        <t t-out="record.purchase_count.value"/>
+                    </span>
+                </a>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend existing CRM partner form view -->
+    <record id="view_partners_form_crm1" model="ir.ui.view">
+        <field name="name">view.res.partner.form.crm.inherited1</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <data>
+                <div name="button_box" position="inside">
+                    <!-- Existing opportunity button -->
+                    <button class="oe_stat_button o_res_partner_tip_opp" type="object"
+                        name="action_view_opportunity"
+                        icon="fa-star"
+                        groups="sales_team.group_sale_salesman"
+                        context="{'default_partner_id': id, 'default_type':'opportunity'}">
+                        <field string="Opportunities" name="opportunity_count" widget="statinfo"/>
+                    </button>
+
+                    <!-- New interaction button -->
+                    <button class="oe_stat_button" type="object"
+                        name="action_view_interactions" icon="fa-comments">
+                        <field string="Interactions" name="interaction_count" widget="statinfo"/>
+                    </button>
+
+                    <!-- New purchase button -->
+                    <button class="oe_stat_button" type="object"
+                        name="action_view_purchases" icon="fa-shopping-cart">
+                        <field string="Purchases" name="purchase_count" widget="statinfo"/>
+                    </button>
+                </div>
+
+                <!-- Customer Type Logic - FINAL IMPLEMENTATION -->
+                <field name="category_id" position="after">
+                    <!-- NEW PARTNERS: Interactive fields with constraints -->
+                    <field name="customer_type"
+                           widget="radio"
+                           options="{'horizontal': True}"
+                           invisible="id != False"
+                           help="Select customer type. Individual customers can only be B2C. Company customers can be B2B or Partner."/>
+
+                    <!-- EXISTING PARTNERS: Read-only locked fields -->
+                    <field name="customer_type"
+                           widget="radio"
+                           options="{'horizontal': True}"
+                           readonly="1"
+                           invisible="id == False"
+                           help="Customer Type is locked for existing partners to prevent data inconsistency."/>
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <!-- Add customer type specific form sections (same as before) -->
+    <record id="view_partner_form_customer_type_sections" model="ir.ui.view">
+        <field name="name">res.partner.form.customer.type.sections</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="view_partners_form_crm1"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <!-- B2C Information Tab -->
+                <page string="B2C Information" invisible="customer_type != 'b2c'">
+                    <div style="width: 100%; min-height: 600px; padding: 20px; box-sizing: border-box;">
+                        <field name="b2c_info" context="{'default_partner_id': id}" nolabel="1">
+                            <form string="B2C Information">
+                                <sheet>
+                                    <div class="oe_title">
+                                        <label for="partner_id" string="B2C Customer Information"/>
+                                        <h1><field name="partner_id" readonly="1" nolabel="1"/></h1>
+                                    </div>
+                                    <group>
+                                        <group string="Personal Details" col="2">
+                                            <field name="gender"/>
+                                            <field name="birth_date"/>
+                                            <field name="age" readonly="1"/>
+                                            <field name="age_group" readonly="1"/>
+                                        </group>
+                                        <group string="Loyalty &amp; System" col="2">
+                                            <field name="loyalty_points" readonly="1"/>
+                                            <field name="create_at" readonly="1"/>
+                                        </group>
+                                    </group>
+                                    <group string="Personal Preferences" col="1">
+                                        <field name="personal_preference" nolabel="1"
+                                               placeholder="Customer preferences, interests, buying patterns, lifestyle notes..."/>
+                                    </group>
+                                </sheet>
+                            </form>
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="gender"/>
+                                <field name="birth_date"/>
+                                <field name="age" readonly="1"/>
+                                <field name="age_group" readonly="1"/>
+                                <field name="loyalty_points" readonly="1"/>
+                                <field name="create_at" readonly="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
+
+                <!-- B2B Information Tab -->
+                <page string="B2B Information" invisible="customer_type != 'b2b'">
+                    <div style="width: 100%; min-height: 600px; padding: 20px; box-sizing: border-box;">
+                        <field name="b2b_info" context="{'default_partner_id': id}" nolabel="1">
+                            <form string="B2B Information">
+                                <sheet>
+                                    <div class="oe_title">
+                                        <label for="partner_id" string="B2B Business Information"/>
+                                        <h1><field name="partner_id" readonly="1" nolabel="1"/></h1>
+                                    </div>
+                                    <group>
+                                        <group string="Business Details" col="2">
+                                            <field name="vat"/>
+                                            <field name="industry_id"/>
+                                            <field name="company_size"/>
+                                            <field name="annual_revenue_range"/>
+                                        </group>
+                                        <group string="Analytics &amp; System" col="2">
+                                            <field name="contract_value" readonly="1"/>
+                                            <field name="department_interactions" readonly="1"/>
+                                            <field name="avg_order_value" readonly="1"/>
+                                            <field name="purchase_frequency_days" readonly="1"/>
+                                            <field name="create_at" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="vat"/>
+                                <field name="industry_id"/>
+                                <field name="company_size"/>
+                                <field name="annual_revenue_range"/>
+                                <field name="contract_value" readonly="1"/>
+                                <field name="department_interactions" readonly="1"/>
+                                <field name="create_at" readonly="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
+
+                <!-- Partner Information Tab -->
+                <page string="Partnership Information" invisible="customer_type != 'partner'">
+                    <div style="width: 100%; min-height: 600px; padding: 20px; box-sizing: border-box;">
+                        <field name="partner_info" context="{'default_partner_id': id}" nolabel="1">
+                            <form string="Partnership Information">
+                                <sheet>
+                                    <div class="oe_button_box" name="button_box">
+                                        <button name="renew_partnership_contract" type="object"
+                                                class="oe_stat_button" icon="fa-refresh"
+                                                invisible="contract_end_date == False">
+                                            <div class="o_field_widget o_stat_info">
+                                                <span class="o_stat_text">Renew Contract</span>
+                                            </div>
+                                        </button>
+                                    </div>
+
+                                    <div class="oe_title">
+                                        <label for="partner_id" string="Partnership Information"/>
+                                        <h1><field name="partner_id" readonly="1" nolabel="1"/></h1>
+                                    </div>
+
+                                    <group>
+                                        <group string="Partnership Details" col="2">
+                                            <field name="partner_type"/>
+                                            <field name="partnership_start_date"/>
+                                            <field name="contract_end_date"/>
+                                            <field name="commission_rate" invisible="partner_type != 'agent'"/>
+                                            <field name="credit_limit" invisible="partner_type != 'supplier'"/>
+                                        </group>
+                                        <group string="Performance &amp; System" col="2">
+                                            <field name="shared_revenue" readonly="1"/>
+                                            <field name="collaboration_count" readonly="1"/>
+                                            <field name="supplier_rank" readonly="1" invisible="partner_type != 'supplier'"/>
+                                            <field name="partnership_duration_days" readonly="1"/>
+                                            <field name="avg_response_time_hours" readonly="1"/>
+                                            <field name="create_at" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="partner_type"/>
+                                <field name="partnership_start_date"/>
+                                <field name="contract_end_date"/>
+                                <field name="commission_rate"/>
+                                <field name="shared_revenue" readonly="1"/>
+                                <field name="collaboration_count" readonly="1"/>
+                                <field name="supplier_rank" readonly="1"/>
+                                <field name="create_at" readonly="1"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
+
+                <!-- Analytics Tab -->
+                <page string="Analytics">
+                    <div style="width: 100%; min-height: 500px; padding: 20px; box-sizing: border-box;">
+                        <group>
+                            <group string="Interaction Analytics" col="2">
+                                <field name="total_interactions" readonly="1"/>
+                                <field name="last_interaction_date" readonly="1"/>
+                                <field name="last_activity_datetime" readonly="1"/>
+                            </group>
+                            <group string="Purchase Analytics" col="2">
+                                <field name="total_purchases" readonly="1"/>
+                                <field name="total_revenue" readonly="1"/>
+                                <field name="last_purchase_date" readonly="1"/>
+                                <field name="customer_lifetime_value" readonly="1"/>
+                                <field name="analytics_updated_at" readonly="1"/>
+                            </group>
+                        </group>
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Add History tabs (same as before) -->
+    <record id="view_partner_form_customer_history_tabs" model="ir.ui.view">
+        <field name="name">res.partner.form.customer.history.tabs</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="view_partner_form_customer_type_sections"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <!-- Interaction History Tab -->
+                <page string="Interaction History">
+                    <div style="width: 100%; min-height: 500px; padding: 20px; box-sizing: border-box;">
+                        <field name="interaction_ids" context="{'default_partner_id': id}">
+                            <tree string="Interactions" editable="bottom">
+                                <field name="interaction_date"/>
+                                <field name="interaction_type"/>
+                                <field name="product_id"/>
+                                <field name="outcome"/>
+                                <field name="user_id"/>
+                                <field name="duration_minutes"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="interaction_type"/>
+                                        <field name="interaction_date"/>
+                                        <field name="product_id"/>
+                                        <field name="duration_minutes"/>
+                                    </group>
+                                    <group>
+                                        <field name="outcome"/>
+                                        <field name="priority"/>
+                                        <field name="user_id"/>
+                                    </group>
+                                </group>
+                                <field name="description"
+                                       placeholder="Describe the interaction details..."/>
+                                <field name="next_action"
+                                       placeholder="Planned next actions..."/>
+                            </form>
+                        </field>
+                    </div>
+                </page>
+
+                <!-- Purchase History Tab -->
+                <page string="Purchase History">
+                    <div style="width: 100%; min-height: 500px; padding: 20px; box-sizing: border-box;">
+                        <field name="purchase_ids" context="{'default_partner_id': id}">
+                            <tree string="Purchases" editable="bottom">
+                                <field name="purchase_date"/>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="unit_price" readonly="1"/>
+                                <field name="amount" sum="Total"/>
+                                <field name="payment_method"/>
+                                <field name="user_id"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="purchase_date"/>
+                                        <field name="quantity"/>
+                                    </group>
+                                    <group>
+                                        <field name="amount"/>
+                                        <field name="unit_price" readonly="1"/>
+                                        <field name="payment_method"/>
+                                        <field name="user_id"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="order_reference"/>
+                                </group>
+                                <field name="notes"
+                                       placeholder="Additional notes about this purchase..."/>
+                            </form>
+                        </field>
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Keep existing simple form extension -->
+    <record id="res_partner_view_form_simple_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form.simple.form.crm</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_simple_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//form">
+                    <field name="team_id" invisible="1"/>
+                    <field name="customer_type" invisible="1"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
 
 </odoo>

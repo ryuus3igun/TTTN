@@ -31,3 +31,15 @@ crm_recurring_plan_access_salesman,crm.recurring.plan.access.salesman,model_crm_
 crm_lead_pls_update_access_system,crm.lead.pls.update.access.system,model_crm_lead_pls_update,base.group_erp_manager,1,1,1,1
 access_mail_activity_plan_sale_manager,mail.activity.plan.sale.manager,mail.model_mail_activity_plan,sales_team.group_sale_manager,1,1,1,1
 access_mail_activity_plan_template_sale_manager,mail.activity.plan.template.sale.manager,mail.model_mail_activity_plan_template,sales_team.group_sale_manager,1,1,1,1
+access_res_partner_b2c_user,res.partner.b2c.user,model_res_partner_b2c,base.group_user,1,1,1,0
+access_res_partner_b2c_manager,res.partner.b2c.manager,model_res_partner_b2c,sales_team.group_sale_manager,1,1,1,1
+access_res_partner_b2b_user,res.partner.b2b.user,model_res_partner_b2b,base.group_user,1,1,1,0
+access_res_partner_b2b_manager,res.partner.b2b.manager,model_res_partner_b2b,sales_team.group_sale_manager,1,1,1,1
+access_res_partner_partner_user,res.partner.partner.user,model_res_partner_partner,base.group_user,1,1,1,0
+access_res_partner_partner_manager,res.partner.partner.manager,model_res_partner_partner,sales_team.group_sale_manager,1,1,1,1
+access_interaction_history_user,interaction.history.user,model_interaction_history,base.group_user,1,1,1,0
+access_interaction_history_salesman,interaction.history.salesman,model_interaction_history,sales_team.group_sale_salesman,1,1,1,0
+access_interaction_history_manager,interaction.history.manager,model_interaction_history,sales_team.group_sale_manager,1,1,1,1
+access_purchase_history_user,purchase.history.user,model_purchase_history,base.group_user,1,0,0,0
+access_purchase_history_salesman,purchase.history.salesman,model_purchase_history,sales_team.group_sale_salesman,1,1,1,0
+access_purchase_history_manager,purchase.history.manager,model_purchase_history,sales_team.group_sale_manager,1,1,1,1

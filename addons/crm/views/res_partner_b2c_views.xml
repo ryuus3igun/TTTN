@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- B2C Form View -->
+    <record id="view_res_partner_b2c_form" model="ir.ui.view">
+        <field name="name">res.partner.b2c.form</field>
+        <field name="model">res.partner.b2c</field>
+        <field name="arch" type="xml">
+            <form string="B2C Customer Information">
+                <sheet>
+                    <group>
+                        <group string="Customer">
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                        <group string="Demographics">
+                            <field name="gender"/>
+                            <field name="birth_date"/>
+                            <field name="age" readonly="1"/>
+                            <field name="age_group" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Preferences">
+                        <field name="personal_preference" nolabel="1"
+                               placeholder="Enter customer preferences, interests, buying patterns..."/>
+                    </group>
+                    <group string="Loyalty Program">
+                        <group>
+                            <field name="loyalty_points" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- B2C Tree View -->
+    <record id="view_res_partner_b2c_tree" model="ir.ui.view">
+        <field name="name">res.partner.b2c.tree</field>
+        <field name="model">res.partner.b2c</field>
+        <field name="arch" type="xml">
+            <tree string="B2C Customers">
+                <field name="partner_id"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="age_group"/>
+                <field name="loyalty_points"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

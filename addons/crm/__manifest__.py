@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-
 {
     'name': 'CRM',
     'version': '1.8',
@@ -20,6 +19,7 @@
         'contacts',
         'digest',
         'phone_validation',
+        'product',  # <-- THÊM DEPENDENCY CHO PRODUCT
     ],
     'data': [
         'security/crm_security.xml',
@@ -35,6 +35,7 @@
         'data/ir_cron_data.xml',
         'data/mail_message_subtype_data.xml',
         'data/crm_recurring_plan_data.xml',
+        #'data/crm_stage_activity_data.xml',  # <-- THÊM DATA FILE
 
         'wizard/crm_lead_lost_views.xml',
         'wizard/crm_lead_to_opportunity_views.xml',
@@ -54,6 +55,14 @@
         'views/res_config_settings_views.xml',
         'views/res_partner_views.xml',
         'views/utm_campaign_views.xml',
+
+        # <-- THÊM CÁC VIEW FILES MỚI
+        'views/res_partner_b2c_views.xml',
+        'views/res_partner_b2b_views.xml',
+        'views/res_partner_partner_views.xml',
+        'views/interaction_history_views.xml',
+        'views/purchase_history_views.xml',
+
         'report/crm_activity_report_views.xml',
         'report/crm_opportunity_report_views.xml',
         'views/crm_team_views.xml',

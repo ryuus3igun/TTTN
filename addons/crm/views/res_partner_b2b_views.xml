@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- B2B Form View -->
+    <record id="view_res_partner_b2b_form" model="ir.ui.view">
+        <field name="name">res.partner.b2b.form</field>
+        <field name="model">res.partner.b2b</field>
+        <field name="arch" type="xml">
+            <form string="B2B Customer Information">
+                <sheet>
+                    <group>
+                        <group string="Customer">
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                        <group string="Business Details">
+                            <field name="vat"/>
+                            <field name="industry_id"/>
+                            <field name="company_size"/>
+                            <field name="annual_revenue_range"/>
+                        </group>
+                    </group>
+                    <group string="Contract &amp; Analytics" col="4">
+                        <field name="contract_value" readonly="1"/>
+                        <field name="department_interactions" readonly="1"/>
+                        <field name="avg_order_value" readonly="1"/>
+                        <field name="purchase_frequency_days" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- B2B Tree View -->
+    <record id="view_res_partner_b2b_tree" model="ir.ui.view">
+        <field name="name">res.partner.b2b.tree</field>
+        <field name="model">res.partner.b2b</field>
+        <field name="arch" type="xml">
+            <tree string="B2B Customers">
+                <field name="partner_id"/>
+                <field name="vat"/>
+                <field name="industry_id"/>
+                <field name="company_size"/>
+                <field name="contract_value"/>
+                <field name="department_interactions"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

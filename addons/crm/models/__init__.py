@@ -15,4 +15,11 @@ from . import digest
 from . import crm_lead_scoring_frequency
 from . import utm
 from . import crm_recurring_plan
+
 from . import mail_activity
+from . import res_partner_b2c
+from . import res_partner_b2b
+from . import res_partner_partner
+from . import interaction_history
+from . import purchase_history
+from . import product_product

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Interaction History Form View -->
+    <record id="view_interaction_history_form" model="ir.ui.view">
+        <field name="name">interaction.history.form</field>
+        <field name="model">interaction.history</field>
+        <field name="arch" type="xml">
+            <form string="Interaction History">
+                <header>
+                    <button name="create_follow_up_interaction" type="object"
+                            string="Create Follow-up" class="btn-primary"/>
+                    <button name="schedule_next_interaction" type="object"
+                            string="Schedule Meeting" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Interaction Details">
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="partner_customer_type" readonly="1"/>
+                            <field name="interaction_type"/>
+                            <field name="interaction_date"/>
+                            <field name="duration_minutes"/>
+                        </group>
+                        <group string="Product &amp; Outcome">
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="outcome"/>
+                            <field name="priority"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Description">
+                        <field name="description" nolabel="1"
+                               placeholder="Describe the interaction, key discussion points, customer feedback..."/>
+                    </group>
+
+                    <group string="Next Actions">
+                        <field name="next_action" nolabel="1"
+                               placeholder="What are the planned next steps or follow-up actions..."/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Interaction History Tree View -->
+    <record id="view_interaction_history_tree" model="ir.ui.view">
+        <field name="name">interaction.history.tree</field>
+        <field name="model">interaction.history</field>
+        <field name="arch" type="xml">
+            <tree string="Interaction History">
+                <field name="interaction_date"/>
+                <field name="partner_id"/>
+                <field name="partner_customer_type"/>
+                <field name="interaction_type"/>
+                <field name="product_id"/>
+                <field name="outcome"/>
+                <field name="user_id"/>
+                <field name="duration_minutes" sum="Total Minutes"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Interaction History Search View -->
+    <record id="view_interaction_history_search" model="ir.ui.view">
+        <field name="name">interaction.history.search</field>
+        <field name="model">interaction.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="interaction_type"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter name="today" string="Today"
+                        domain="[('interaction_date','&gt;=',datetime.datetime.combine(context_today(),datetime.time(0,0,0))),('interaction_date','&lt;=',datetime.datetime.combine(context_today(),datetime.time(23,59,59)))]"/>
+                <filter name="this_week" string="This Week"
+                        domain="[('interaction_date','&gt;=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter name="positive" string="Positive Outcome"
+                        domain="[('outcome','=','positive')]"/>
+                <filter name="follow_up_needed" string="Follow-up Needed"
+                        domain="[('outcome','=','follow_up_needed')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_type" string="Interaction Type" context="{'group_by':'interaction_type'}"/>
+                    <filter name="group_outcome" string="Outcome" context="{'group_by':'outcome'}"/>
+                    <filter name="group_user" string="Sales Rep" context="{'group_by':'user_id'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by':'interaction_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Interaction History Action -->
+    <record id="action_interaction_history" model="ir.actions.act_window">
+        <field name="name">Interaction History</field>
+        <field name="res_model">interaction.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_interaction_history_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first interaction record
+            </p>
+            <p>
+                Track all customer interactions including calls, emails, meetings, and demos.
+                This helps maintain a complete history of customer relationships.
+            </p>
+        </field>
+    </record>
+
+</odoo>

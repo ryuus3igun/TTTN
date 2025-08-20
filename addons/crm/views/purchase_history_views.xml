@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Purchase History Form View -->
+    <record id="view_purchase_history_form" model="ir.ui.view">
+        <field name="name">purchase.history.form</field>
+        <field name="model">purchase.history</field>
+        <field name="arch" type="xml">
+            <form string="Purchase History">
+                <header>
+                    <button name="create_repeat_purchase" type="object"
+                            string="Repeat Purchase" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Customer &amp; Product">
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="partner_customer_type" readonly="1"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="product_category_id" readonly="1"/>
+                        </group>
+                        <group string="Purchase Details">
+                            <field name="purchase_date"/>
+                            <field name="quantity"/>
+                            <field name="amount"/>
+                            <field name="unit_price" readonly="1"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Payment &amp; Reference">
+                            <field name="payment_method"/>
+                            <field name="order_reference"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"
+                               placeholder="Additional notes about this purchase..."/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Purchase History Tree View -->
+    <record id="view_purchase_history_tree" model="ir.ui.view">
+        <field name="name">purchase.history.tree</field>
+        <field name="model">purchase.history</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase History">
+                <field name="purchase_date"/>
+                <field name="partner_id"/>
+                <field name="partner_customer_type"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="unit_price"/>
+                <field name="amount" sum="Total Amount"/>
+                <field name="payment_method"/>
+                <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Purchase History Search View -->
+    <record id="view_purchase_history_search" model="ir.ui.view">
+        <field name="name">purchase.history.search</field>
+        <field name="model">purchase.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="order_reference"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter name="today" string="Today"
+                        domain="[('purchase_date','=',context_today())]"/>
+                <filter name="this_week" string="This Week"
+                        domain="[('purchase_date','&gt;=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter name="this_month" string="This Month"
+                        domain="[('purchase_date','&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                <separator/>
+                <filter name="cash_payment" string="Cash Payments"
+                        domain="[('payment_method','=','cash')]"/>
+                <filter name="credit_payment" string="Credit Payments"
+                        domain="[('payment_method','=','credit')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_product" string="Product" context="{'group_by':'product_id'}"/>
+                    <filter name="group_payment_method" string="Payment Method" context="{'group_by':'payment_method'}"/>
+                    <filter name="group_user" string="Sales Rep" context="{'group_by':'user_id'}"/>
+                    <filter name="group_date" string="Purchase Date" context="{'group_by':'purchase_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Purchase History Action -->
+    <record id="action_purchase_history" model="ir.actions.act_window">
+        <field name="name">Purchase History</field>
+        <field name="res_model">purchase.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_purchase_history_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first purchase record
+            </p>
+            <p>
+                Track all customer purchases to analyze buying patterns,
+                calculate customer lifetime value, and manage customer relationships effectively.
+            </p>
+        </field>
+    </record>
+
+</odoo>
